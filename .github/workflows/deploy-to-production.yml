@@ -1,0 +1,29 @@
+name: Deploy to production
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        persist-credentials: false
+    - name: Build data
+      run: |
+        mkdir _site
+        echo "built data" > _site/data.txt
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@3.7.1
+      with:
+        REPOSITORY_NAME: open-sdg-prod-1/repo-b
+        ACCESS_TOKEN: ${{ secrets.token }}
+        BRANCH: my-new-branch
+        FOLDER: _site
+        CLEAN: true
